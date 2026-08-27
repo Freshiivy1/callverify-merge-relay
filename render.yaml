@@ -1,0 +1,20 @@
+# Render.com blueprint — CallVerify merge-detection relay
+# Usage: push this folder to a GitHub repo, then
+#   Render Dashboard → New → Blueprint → pick the repo
+# (or: New → Web Service → use build/start commands below manually)
+services:
+  - type: web
+    name: callverify-merge-relay
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      # https://<your-main-app-domain>/api/verify/stream-detected
+      - key: CALLBACK_URL
+        sync: false
+      # Long random string — MUST match the main app's VERIFY_STREAM_SECRET
+      - key: STREAM_SECRET
+        sync: false
+      # Render injects PORT automatically; no need to set it.
